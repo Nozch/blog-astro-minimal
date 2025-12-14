@@ -1,0 +1,209 @@
+# Frontmatter Schema Contract
+# Version: 1.0.0
+# Date: 2025-12-14
+# Description: Canonical schema for blog post frontmatter metadata
+
+# This contract defines the expected structure of frontmatter in all blog post Markdown files.
+# Implementation: Enforced by Zod schema in src/content/config.ts
+
+schema:
+  type: object
+  required:
+    - title
+    - date
+  properties:
+    title:
+      type: string
+      description: "Post title displayed in headings, metadata, and post lists"
+      constraints:
+        - Non-empty string
+      example: "Getting Started with Astro"
+
+    date:
+      type: string
+      format: date (ISO 8601)
+      description: "Publication date in YYYY-MM-DD format, parsed as Date object"
+      constraints:
+        - Must be valid ISO 8601 date
+        - Parsed as JavaScript Date at build time
+      example: "2025-12-14"
+
+    description:
+      type: string
+      required: false
+      description: "Short summary (1-2 sentences) for post list previews and meta tags"
+      default: undefined
+      example: "A guide to building static sites with Astro's content-first approach."
+
+    tags:
+      type: array
+      items:
+        type: string
+      required: false
+      description: "Array of topic tags for categorization and filtering"
+      default: []
+      constraints:
+        - Each tag must be non-empty string
+        - Empty array is explicitly allowed (zero tags permitted)
+        - Case-sensitive (convention: lowercase-with-hyphens)
+      example: ["astro", "web-development", "tutorial"]
+
+    draft:
+      type: boolean
+      required: false
+      description: "If true, post excluded from production build"
+      default: false
+      constraints:
+        - Drafts remain in repository but don't appear in build output
+      example: false
+
+    slug:
+      type: string
+      required: false
+      description: "URL slug (auto-generated random string if omitted)"
+      default: Auto-generated random alphanumeric string (8-12 characters)
+      constraints:
+        - Alphanumeric characters only (a-z, 0-9)
+        - Length: 8-12 characters
+        - Must be unique across all posts
+        - No Japanese characters allowed
+        - NOT derived from filename
+      example: "a8k3n9x2"
+
+# Validation Rules (enforced at build time)
+validation_rules:
+  - rule: "Build MUST fail if required fields are missing"
+    enforcement: "Zod schema validation"
+    error_message: "[posts/{filename}] {field} is required"
+
+  - rule: "Build MUST fail if date format is invalid"
+    enforcement: "Zod z.date() parser"
+    error_message: "[posts/{filename}] date must be valid ISO 8601 format (YYYY-MM-DD)"
+
+  - rule: "Build MUST fail if tags array contains non-string values"
+    enforcement: "Zod z.array(z.string())"
+    error_message: "[posts/{filename}] tags must be array of strings"
+
+  - rule: "Build MUST fail if slug is not unique or contains invalid characters"
+    enforcement: "Slug uniqueness validation + character validation"
+    error_message: "[posts/{filename}] slug must be unique and contain only alphanumeric characters (a-z, 0-9)"
+
+# Examples
+
+example_minimal:
+  description: "Minimal valid frontmatter (only required fields)"
+  yaml: |
+    ---
+    title: "My First Post"
+    date: 2025-12-14
+    ---
+
+example_complete:
+  description: "Complete frontmatter (all fields)"
+  yaml: |
+    ---
+    title: "Getting Started with Astro"
+    date: 2025-12-14
+    description: "A comprehensive guide to building static sites with Astro."
+    tags: ["astro", "web-development", "tutorial"]
+    draft: false
+    slug: "a8k3n9x2"
+    ---
+
+example_draft:
+  description: "Draft post (excluded from build)"
+  yaml: |
+    ---
+    title: "Work in Progress"
+    date: 2025-12-14
+    draft: true
+    ---
+
+example_invalid_missing_title:
+  description: "Invalid: missing required title field"
+  yaml: |
+    ---
+    date: 2025-12-14
+    ---
+  error: "[posts/example.md] title is required"
+
+example_invalid_date_format:
+  description: "Invalid: date not in ISO format"
+  yaml: |
+    ---
+    title: "My Post"
+    date: "December 14, 2025"
+    ---
+  error: "[posts/example.md] date must be valid ISO 8601 format"
+
+# TypeScript Implementation (for reference)
+
+typescript_schema: |
+  // src/content/config.ts
+  import { defineCollection, z } from 'astro:content';
+
+  const posts = defineCollection({
+    schema: z.object({
+      title: z.string(),
+      date: z.date(),
+      description: z.string().optional(),
+      tags: z.array(z.string()).default([]),
+      draft: z.boolean().default(false),
+    }),
+  });
+
+  export const collections = { posts };
+
+# Content Collection Query Examples
+
+query_examples:
+  get_all_published:
+    description: "Get all published posts (exclude drafts)"
+    code: |
+      const posts = await getCollection('posts', ({ data }) => !data.draft);
+
+  sort_by_date:
+    description: "Sort posts by date (newest first)"
+    code: |
+      const sorted = posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+  filter_by_tag:
+    description: "Get posts with specific tag"
+    code: |
+      const tagged = posts.filter(post => post.data.tags.includes('astro'));
+
+  get_by_slug:
+    description: "Get single post by slug"
+    code: |
+      const post = await getEntry('posts', 'getting-started-with-astro');
+
+# Version History
+
+version_history:
+  - version: "1.0.0"
+    date: "2025-12-14"
+    changes: "Initial schema definition for MVP"
+    breaking_changes: false
+
+# Future Extensions (post-MVP)
+
+future_extensions:
+  - field: "updated"
+    type: "Date"
+    description: "Last modified date for 'Updated on' notices"
+    breaking: false
+
+  - field: "featured"
+    type: "boolean"
+    description: "Highlight post on homepage"
+    breaking: false
+
+  - field: "image"
+    type: "string"
+    description: "Hero image URL"
+    breaking: false
+
+  - field: "series"
+    type: "string"
+    description: "Group posts into series (e.g., 'React Tutorial')"
+    breaking: false

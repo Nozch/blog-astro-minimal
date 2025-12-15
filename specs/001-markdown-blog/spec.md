@@ -138,7 +138,7 @@ As a writer, I want to categorize posts with tags or categories in frontmatter a
 
 2. **Git-based version control**: Content is versioned using Git, enabling rollback, history tracking, and branch-based workflows for drafting.
 
-3. **Filesystem-based content storage**: Blog posts are stored as `.md` or `.mdx` files in a designated directory (e.g., `src/content/posts/`), not in a database or CMS.
+3. **Filesystem-based content storage**: Blog posts are stored as `.md` files in a designated directory (e.g., `src/content/posts/`), not in a database or CMS.
 
 4. **Build-time generation**: The entire blog is generated at build time, not at request time. This aligns with the static-first requirement and platform independence goal.
 

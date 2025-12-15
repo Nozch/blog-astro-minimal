@@ -18,7 +18,7 @@ This document captures research findings and technical decisions for implementin
 - **Explicitly required**: User input specifies "Astro is required as the static site generator"
 - **Content Collections**: Astro's built-in content collections provide type-safe frontmatter validation with Zod schemas
 - **Islands Architecture**: Enables minimal client JavaScript (only theme toggle needs JS)
-- **Markdown-first**: Native support for `.md` and `.mdx` files without additional configuration
+- **Markdown-first**: Native support for `.md` files without additional configuration (advanced MDX components excluded from MVP scope)
 - **Performance**: Ships zero JavaScript by default, aligns with constitution's static-first principle
 - **Build-time rendering**: All pages generated at build time, no server runtime required
 

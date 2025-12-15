@@ -12,7 +12,7 @@ Build a minimal, content-first personal blog using Astro's static site generatio
 ## Technical Context
 
 **Language/Version**: Node.js (latest LTS recommended, minimum Node 18+)
-**Primary Dependencies**: Astro (v4+), Markdown/MDX parser (built into Astro), Syntax highlighter (Shiki or Prism), CSS (custom properties for theming)
+**Primary Dependencies**: Astro (v4+), Markdown parser (built into Astro), Syntax highlighter (Shiki or Prism), CSS (custom properties for theming)
 **Storage**: Filesystem-based (Markdown files in `src/content/posts/`)
 **Testing**: Vitest for unit/integration tests, TypeScript for type checking, ESLint for linting
 **Target Platform**: Static hosting (Netlify, Vercel, GitHub Pages, Cloudflare Pages, or any static file host)

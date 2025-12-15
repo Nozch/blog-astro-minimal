@@ -43,9 +43,11 @@ npm install -D vitest @vitest/ui
 npm install -D eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
 
 # Astroにはデフォルトで以下が含まれます（インストール不要）:
-# - Markdown/MDX サポート
+# - Markdown サポート（.mdファイル）
 # - Shiki シンタックスハイライター（ビルド時、ランタイムコストゼロ）
 # - TypeScript
+#
+# 注意: 高度なMDXコンポーネント（@astrojs/mdx）はMVPのスコープ外です（spec.mdを参照）
 ```
 
 ### 3. プロジェクト構造

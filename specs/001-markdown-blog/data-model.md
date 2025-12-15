@@ -14,7 +14,7 @@ This blog uses a file-based data model where Markdown files with YAML frontmatte
 
 **Description**: Represents a single piece of written content.
 
-**Storage**: Filesystem (`.md` or `.mdx` files in `src/content/posts/`)
+**Storage**: Filesystem (`.md` files in `src/content/posts/`)
 
 **Schema**:
 

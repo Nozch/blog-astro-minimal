@@ -12,7 +12,7 @@ Astroの静的サイト生成を使用して、Markdownベースの執筆を公�
 ## 技術コンテキスト
 
 **言語/バージョン**: Node.js（最新LTS推奨、最小 Node 18+）
-**主要依存関係**: Astro (v4+)、Markdown/MDXパーサー（Astroに組み込み）、シンタックスハイライター（ShikiまたはPrism）、CSS（テーマ用カスタムプロパティ）
+**主要依存関係**: Astro (v4+)、Markdownパーサー（Astroに組み込み）、シンタックスハイライター（ShikiまたはPrism）、CSS（テーマ用カスタムプロパティ）
 **ストレージ**: ファイルシステムベース（`src/content/posts/` のMarkdownファイル）
 **テスト**: 単体/統合テスト用Vitest、型チェック用TypeScript、リント用ESLint
 **ターゲットプラットフォーム**: 静的ホスティング（Netlify、Vercel、GitHub Pages、Cloudflare Pages、または任意の静的ファイルホスト）

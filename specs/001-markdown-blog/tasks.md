@@ -25,7 +25,7 @@
 **Purpose**: Project initialization and basic structure
 
 - [ ] T001 Initialize Astro project with npm create astro@latest at repository root
-- [ ] T002 Install dependencies: astro@latest, @astrojs/mdx, typescript
+- [ ] T002 Install dependencies: astro@latest, typescript
 - [ ] T003 Configure TypeScript in tsconfig.json (strict mode enabled)
 - [ ] T004 Configure ESLint in .eslintrc.json with Astro plugin
 - [ ] T005 Create .gitignore for node_modules/, dist/, .astro/, .env files

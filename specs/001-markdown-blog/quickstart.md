@@ -43,9 +43,11 @@ npm install -D vitest @vitest/ui
 npm install -D eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin
 
 # Astro includes these by default (no install needed):
-# - Markdown/MDX support
+# - Markdown support (.md files)
 # - Shiki syntax highlighter (build-time, zero runtime cost)
 # - TypeScript
+#
+# Note: Advanced MDX components (@astrojs/mdx) are explicitly out of scope for MVP (see spec.md)
 ```
 
 ### 3. Project Structure

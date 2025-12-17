@@ -24,13 +24,13 @@
 
 **目的**: プロジェクトの初期化と基本構造
 
-- [ ] T001 リポジトリルートで npm create astro@latest を使用してAstroプロジェクトを初期化
-- [ ] T002 依存関係のインストール: astro@latest、typescript
-- [ ] T003 tsconfig.json で TypeScript を設定（strict モード有効）
-- [ ] T004 Astro プラグインを使用して .eslintrc.json で ESLint を設定
-- [ ] T005 node_modules/、dist/、.astro/、.env ファイル用の .gitignore を作成
-- [ ] T006 astro.config.mjs で Astro を設定（サイトURL、Shiki シンタックスハイライトを使用した基本的な Markdown レンダリング）
-- [ ] T007 ディレクトリ構造を作成: src/content/posts/、src/layouts/、src/components/、src/styles/、src/pages/posts/、src/pages/tags/
+- [X] T001 リポジトリルートで npm create astro@latest を使用してAstroプロジェクトを初期化
+- [X] T002 依存関係のインストール: astro@latest、typescript
+- [X] T003 tsconfig.json で TypeScript を設定（strict モード有効）
+- [X] T004 Astro プラグインを使用して eslint.config.mjs で ESLint を設定
+- [X] T005 node_modules/、dist/、.astro/、.env ファイル用の .gitignore を作成
+- [X] T006 astro.config.mjs で Astro を設定（サイトURL、Shiki シンタックスハイライトを使用した基本的な Markdown レンダリング）
+- [X] T007 ディレクトリ構造を作成: src/content/posts/、src/layouts/、src/components/、src/styles/、src/pages/posts/、src/pages/tags/
 
 ---
 

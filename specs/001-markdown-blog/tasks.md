@@ -24,16 +24,16 @@
 
 **Purpose**: Project initialization and basic structure
 
-- [ ] T001 Initialize Astro project with npm create astro@latest at repository root
-- [ ] T002 Install dependencies: astro@latest, typescript
-- [ ] T003 Configure TypeScript in tsconfig.json (strict mode enabled)
-- [ ] T004 Configure ESLint in .eslintrc.json with Astro plugin
-- [ ] T005 Create .gitignore for node_modules/, dist/, .astro/, .env files
-- [ ] T006 Configure Astro in astro.config.mjs (site URL, basic Markdown rendering with Shiki syntax highlighting)
-- [ ] T007 Create directory structure: src/content/posts/, src/layouts/, src/components/, src/styles/, src/pages/posts/, src/pages/tags/
-
----
-
+- [X] T001 Initialize Astro project with npm create astro@latest at repository root
+- [X] T002 Install dependencies: astro@latest, typescript
+- [X] T003 Configure TypeScript in tsconfig.json (strict mode enabled)
+- [X] T004 Configure ESLint in eslint.config.mjs with Astro plugin
+- [X] T005 Create .gitignore for node_modules/, dist/, .astro/, .env files
+- [X] T006 Configure Astro in astro.config.mjs (site URL, basic Markdown rendering with Shiki syntax highlighting)
+- [X] T007 Create directory structure: src/content/posts/, src/layouts/, src/components/, src/styles/, src/pages/posts/, src/pages/tags/
+     
+---  
+     
 ## Phase 2: Foundational (Blocking Prerequisites)
 
 **Purpose**: Minimal core infrastructure needed to render and publish posts (User Story 1)

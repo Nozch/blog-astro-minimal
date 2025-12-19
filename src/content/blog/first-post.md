@@ -1,7 +1,11 @@
 ---
 title: 'First post'
+id: ''
+visibility: ''
+slug: ''
+date: 'Jul 08 2022'
 description: 'Lorem ipsum dolor sit amet'
-pubDate: 'Jul 08 2022'
+tags: []
 heroImage: '../../assets/blog-placeholder-3.jpg'
 ---
 

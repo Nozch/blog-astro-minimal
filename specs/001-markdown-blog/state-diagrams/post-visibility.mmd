@@ -1,0 +1,40 @@
+---
+config:
+  theme: neo
+  layout: dagre
+---
+stateDiagram
+  direction LR
+  classDef draftC fill:#f9f,stroke:#333,stroke-width:2px;
+  classDef publicC fill:#bbf8c0,stroke:#333,stroke-width:2px;
+  classDef unlistedC fill:#f9f7ae,stroke:#333,stroke-width:2px;
+  classDef privateC fill:#ddd6f3,stroke:#333,stroke-width:2px;
+  classDef withdrawnC fill:#fcbbbb,stroke:#333,stroke-width:2px;
+  [*] --> draft
+  draft --> public:Publish
+  draft --> unlisted:Link only
+  public --> unlisted:Unlist
+  unlisted --> public:List
+  public --> private:Hide(Private)
+  unlisted --> private:Hide(Private)
+  private --> public:Re-publish
+  private --> withdrawn:Withdraw
+  public --> withdrawn:Withdraw
+  unlisted --> withdrawn:Withdraw
+  withdrawn --> public:Restore(Listed)
+  withdrawn --> [*]
+  draft:Draft
+  public:Public
+  unlisted:Unlisted
+  private:Private
+  withdrawn:Withdrawn
+  note right of draft : Drafts are only visible to editors.
+  note right of public : Public posts are listed and discoverable.
+  note right of unlisted : Unlisted posts are shared by URL only.
+  note right of private : Private posts are hidden from everyone.
+  note right of withdrawn : Withdrawn posts are removed from public view.
+  class draft draftC
+  class public publicC
+  class unlisted unlistedC
+  class private privateC
+  class withdrawn withdrawnC

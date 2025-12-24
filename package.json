@@ -12,7 +12,7 @@
 		"pc": "prettier --check",
 		"typecheck": "tsc --noEmit",
 		"test": "vitest run",
-		"ci-check": "pnpm lint && pnpm typecheck && pnpm test && pnpm build"
+		"ci-check": "pnpm astro sync && pnpm lint && pnpm typecheck && pnpm test && pnpm build"
 	},
 	"dependencies": {
 		"@astrojs/mdx": "^4.3.13",

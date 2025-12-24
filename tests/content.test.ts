@@ -29,13 +29,15 @@ describe("BlogSchema validation", () => {
 		} satisfies BlogInput;
 
 		it("slugが欠けている場合は無効", () => {
-			const { slug, ...invalidPost } = validPublicPost;
+			  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+			const { slug: _slug, ...invalidPost } = validPublicPost;
 			const result = blogSchema.safeParse(invalidPost);
 			expect(result.success).toBe(false);
 		});
 
 		it("idが欠けている場合は無効", () => {
-			const { id, ...invalidPost } = validPublicPost;
+			  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+			const { id: _id, ...invalidPost } = validPublicPost;
 			const result = blogSchema.safeParse(invalidPost);
 			expect(result.success).toBe(false);
 		});

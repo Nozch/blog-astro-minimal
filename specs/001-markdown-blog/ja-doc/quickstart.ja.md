@@ -74,31 +74,32 @@ mkdir -p tests
 
 ```json
 {
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaVersion": "latest",
-    "sourceType": "module"
-  },
-  "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:astro/recommended"
-  ],
-  "overrides": [
-    {
-      "files": ["*.astro"],
-      "parser": "astro-eslint-parser",
-      "parserOptions": {
-        "parser": "@typescript-eslint/parser",
-        "extraFileExtensions": [".astro"]
-      }
-    }
-  ],
-  "rules": {}
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"ecmaVersion": "latest",
+		"sourceType": "module"
+	},
+	"extends": [
+		"eslint:recommended",
+		"plugin:@typescript-eslint/recommended",
+		"plugin:astro/recommended"
+	],
+	"overrides": [
+		{
+			"files": ["*.astro"],
+			"parser": "astro-eslint-parser",
+			"parserOptions": {
+				"parser": "@typescript-eslint/parser",
+				"extraFileExtensions": [".astro"]
+			}
+		}
+	],
+	"rules": {}
 }
 ```
 
 **注意**: `plugin:astro/recommended` が必要な場合はインストール:
+
 ```bash
 npm install -D eslint-plugin-astro astro-eslint-parser
 ```
@@ -141,6 +142,7 @@ pnpm-debug.log*
 ### 1. コンテンツコレクションスキーマの定義
 
 > **設計参照**:
+>
 > - [contracts/frontmatter-schema.yaml](./contracts/frontmatter-schema.yaml) - 正規スキーマ定義
 > - [data-model.md - Blog Post Entity](./data-model.md#1-blog-post) - エンティティ仕様
 > - [research.md - Content Validation: Zod](./research.md#3-content-validation-zod) - Zodが選ばれた理由
@@ -150,16 +152,16 @@ pnpm-debug.log*
 `src/content/config.ts` を作成:
 
 ```typescript
-import { defineCollection, z } from 'astro:content';
+import { defineCollection, z } from "astro:content";
 
 const posts = defineCollection({
-  schema: z.object({
-    title: z.string(),
-    date: z.date(),
-    description: z.string().optional(),
-    tags: z.array(z.string()).default([]),
-    draft: z.boolean().default(false),
-  }),
+	schema: z.object({
+		title: z.string(),
+		date: z.date(),
+		description: z.string().optional(),
+		tags: z.array(z.string()).default([]),
+		draft: z.boolean().default(false),
+	}),
 });
 
 export const collections = { posts };
@@ -168,6 +170,7 @@ export const collections = { posts };
 ### 2. ベースレイアウトの作成
 
 > **設計参照**:
+>
 > - [research.md - Theming Strategy](./research.md#4-theming-strategy-css-custom-properties--localstorage) - CSSカスタムプロパティ + localStorageを使う理由
 > - [plan.md - Visual Consistency](./plan.md#visual-consistency-) - デザイントークンに関する憲法要件
 >
@@ -178,58 +181,62 @@ export const collections = { posts };
 ```astro
 ---
 interface Props {
-  title: string;
-  description?: string;
+	title: string;
+	description?: string;
 }
 
 const { title, description } = Astro.props;
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title}</title>
-    {description && <meta name="description" content={description} />}
-    <link rel="stylesheet" href="/styles/global.css" />
-    <script is:inline>
-      // テーマ初期化（フラッシュを避けるためページレンダリング前に実行）
-      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.setAttribute('data-theme', 'dark');
-      }
-    </script>
-  </head>
-  <body>
-    <header>
-      <nav>
-        <a href="/">ホーム</a>
-        <button id="theme-toggle" aria-label="テーマ切り替え">🌓</button>
-      </nav>
-    </header>
-    <main>
-      <slot />
-    </main>
-    <footer>
-      <p>&copy; 2025 あなたの名前. All rights reserved.</p>
-    </footer>
-    <script>
-      // テーマトグルロジック
-      const toggle = document.getElementById('theme-toggle');
-      toggle?.addEventListener('click', () => {
-        const current = document.documentElement.getAttribute('data-theme');
-        const next = current === 'dark' ? 'light' : 'dark';
-        document.documentElement.setAttribute('data-theme', next);
-        localStorage.theme = next;
-      });
-    </script>
-  </body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>{title}</title>
+		{description && <meta name="description" content={description} />}
+		<link rel="stylesheet" href="/styles/global.css" />
+		<script is:inline>
+			// テーマ初期化（フラッシュを避けるためページレンダリング前に実行）
+			if (
+				localStorage.theme === "dark" ||
+				(!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)
+			) {
+				document.documentElement.setAttribute("data-theme", "dark");
+			}
+		</script>
+	</head>
+	<body>
+		<header>
+			<nav>
+				<a href="/">ホーム</a>
+				<button id="theme-toggle" aria-label="テーマ切り替え">🌓</button>
+			</nav>
+		</header>
+		<main>
+			<slot />
+		</main>
+		<footer>
+			<p>&copy; 2025 あなたの名前. All rights reserved.</p>
+		</footer>
+		<script>
+			// テーマトグルロジック
+			const toggle = document.getElementById("theme-toggle");
+			toggle?.addEventListener("click", () => {
+				const current = document.documentElement.getAttribute("data-theme");
+				const next = current === "dark" ? "light" : "dark";
+				document.documentElement.setAttribute("data-theme", next);
+				localStorage.theme = next;
+			});
+		</script>
+	</body>
 </html>
 ```
 
 ### 3. ホームページ（記事リスト）の作成
 
 > **設計参照**:
+>
 > - [data-model.md - Query Patterns](./data-model.md#build-time-queries-astro) - コンテンツコレクションのクエリ方法
 > - [data-model.md - Draft Filtering](./data-model.md#draft-filtering) - ドラフトがクエリフィルタで除外される理由
 > - [spec.md - User Story 2](../spec.md#user-story-2---browse-and-navigate-blog-posts-priority-p2) - 時系列ナビゲーション要件
@@ -240,34 +247,41 @@ const { title, description } = Astro.props;
 
 ```astro
 ---
-import { getCollection } from 'astro:content';
-import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
 
-const posts = await getCollection('posts', ({ data }) => !data.draft);
+const posts = await getCollection("posts", ({ data }) => !data.draft);
 const sorted = posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 ---
 
 <BaseLayout title="私のブログ">
-  <h1>ブログ記事</h1>
-  <ul class="post-list">
-    {sorted.map(post => (
-      <li>
-        <a href={`/posts/${post.slug}`}>
-          <h2>{post.data.title}</h2>
-          <time datetime={post.data.date.toISOString()}>
-            {post.data.date.toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })}
-          </time>
-          {post.data.description && <p>{post.data.description}</p>}
-        </a>
-      </li>
-    ))}
-  </ul>
+	<h1>ブログ記事</h1>
+	<ul class="post-list">
+		{
+			sorted.map((post) => (
+				<li>
+					<a href={`/posts/${post.slug}`}>
+						<h2>{post.data.title}</h2>
+						<time datetime={post.data.date.toISOString()}>
+							{post.data.date.toLocaleDateString("ja-JP", {
+								year: "numeric",
+								month: "long",
+								day: "numeric",
+							})}
+						</time>
+						{post.data.description && <p>{post.data.description}</p>}
+					</a>
+				</li>
+			))
+		}
+	</ul>
 </BaseLayout>
 ```
 
 ### 4. 記事ページの作成
 
 > **設計参照**:
+>
 > - [data-model.md - Blog Post Schema](./data-model.md#1-blog-post) - エンティティフィールドとバリデーションルール
 > - [research.md - URL Structure](./research.md#8-url-structure-postsslug) - `/posts/[slug]` パターンの理由
 > - [spec.md - User Story 3](../spec.md#user-story-3---read-posts-in-a-distraction-free-environment-priority-p3) - 読書体験要件
@@ -278,15 +292,15 @@ const sorted = posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime(
 
 ```astro
 ---
-import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
-  const posts = await getCollection('posts', ({ data }) => !data.draft);
-  return posts.map(post => ({
-    params: { slug: post.slug },
-    props: { post },
-  }));
+	const posts = await getCollection("posts", ({ data }) => !data.draft);
+	return posts.map((post) => ({
+		params: { slug: post.slug },
+		props: { post },
+	}));
 }
 
 const { post } = Astro.props;
@@ -294,28 +308,37 @@ const { Content } = await post.render();
 ---
 
 <BaseLayout title={post.data.title} description={post.data.description}>
-  <article>
-    <header>
-      <h1>{post.data.title}</h1>
-      <time datetime={post.data.date.toISOString()}>
-        {post.data.date.toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })}
-      </time>
-      {post.data.tags.length > 0 && (
-        <div class="tags">
-          {post.data.tags.map(tag => (
-            <a href={`/tags/${tag}`}>#{tag}</a>
-          ))}
-        </div>
-      )}
-    </header>
-    <Content />
-  </article>
+	<article>
+		<header>
+			<h1>{post.data.title}</h1>
+			<time datetime={post.data.date.toISOString()}>
+				{
+					post.data.date.toLocaleDateString("ja-JP", {
+						year: "numeric",
+						month: "long",
+						day: "numeric",
+					})
+				}
+			</time>
+			{
+				post.data.tags.length > 0 && (
+					<div class="tags">
+						{post.data.tags.map((tag) => (
+							<a href={`/tags/${tag}`}>#{tag}</a>
+						))}
+					</div>
+				)
+			}
+		</header>
+		<Content />
+	</article>
 </BaseLayout>
 ```
 
 ### 5. タグページの作成
 
 > **設計参照**:
+>
 > - [data-model.md - Tag Entity](./data-model.md#2-tag) - タグ抽出と関係性
 > - [research.md - Tag Pages: Dynamic Routes](./research.md#9-tag-pages-dynamic-routes) - タグページの静的生成
 > - [spec.md - User Story 4](../spec.md#user-story-4---organize-posts-by-topic-priority-p4) - タグ組織化要件
@@ -326,21 +349,21 @@ const { Content } = await post.render();
 
 ```astro
 ---
-import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
-  const posts = await getCollection('posts', ({ data }) => !data.draft);
-  const tags = [...new Set(posts.flatMap(post => post.data.tags))];
+	const posts = await getCollection("posts", ({ data }) => !data.draft);
+	const tags = [...new Set(posts.flatMap((post) => post.data.tags))];
 
-  return tags.map(tag => ({
-    params: { tag },
-    props: {
-      posts: posts
-        .filter(p => p.data.tags.includes(tag))
-        .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-    },
-  }));
+	return tags.map((tag) => ({
+		params: { tag },
+		props: {
+			posts: posts
+				.filter((p) => p.data.tags.includes(tag))
+				.sort((a, b) => b.data.date.getTime() - a.data.date.getTime()),
+		},
+	}));
 }
 
 const { tag } = Astro.params;
@@ -348,26 +371,33 @@ const { posts } = Astro.props;
 ---
 
 <BaseLayout title={`"${tag}" タグの記事`}>
-  <h1>"{tag}" タグの記事</h1>
-  <ul class="post-list">
-    {posts.map(post => (
-      <li>
-        <a href={`/posts/${post.slug}`}>
-          <h2>{post.data.title}</h2>
-          <time datetime={post.data.date.toISOString()}>
-            {post.data.date.toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })}
-          </time>
-        </a>
-      </li>
-    ))}
-  </ul>
-  <p><a href="/">← すべての記事に戻る</a></p>
+	<h1>"{tag}" タグの記事</h1>
+	<ul class="post-list">
+		{
+			posts.map((post) => (
+				<li>
+					<a href={`/posts/${post.slug}`}>
+						<h2>{post.data.title}</h2>
+						<time datetime={post.data.date.toISOString()}>
+							{post.data.date.toLocaleDateString("ja-JP", {
+								year: "numeric",
+								month: "long",
+								day: "numeric",
+							})}
+						</time>
+					</a>
+				</li>
+			))
+		}
+	</ul>
+	<p><a href="/">← すべての記事に戻る</a></p>
 </BaseLayout>
 ```
 
 ### 6. グローバルスタイルの追加
 
 > **設計参照**:
+>
 > - [research.md - Typography System](./research.md#5-typography-system-system-font-stack--fluid-typography) - システムフォントと流動的スケーリング
 > - [research.md - Theming Strategy](./research.md#4-theming-strategy-css-custom-properties--localstorage) - テーマ用CSSカスタムプロパティ
 > - [research.md - CSS Strategy](./research.md#2-css-strategy-single-global-stylesheet) - 単一CSSファイルの理由
@@ -375,6 +405,7 @@ const { posts } = Astro.props;
 > - [spec.md - User Story 3](../spec.md#user-story-3---read-posts-in-a-distraction-free-environment-priority-p3) - タイポグラフィと可読性要件
 >
 > **理由**:
+>
 > - **システムフォント**: Webフォントのダウンロード不要、即座のテキストレンダリング（FCP <1.5s要件）
 > - **流動的タイポグラフィ**: `clamp()` がメディアクエリなしでレスポンシブスケーリングを提供
 > - **CSSカスタムプロパティ**: 憲法により必須、テーマ切り替えを可能にする
@@ -385,94 +416,96 @@ const { posts } = Astro.props;
 ```css
 /* CSSカスタムプロパティ（デザイントークン） */
 :root {
-  --color-text: #1a1a1a;
-  --color-bg: #ffffff;
-  --color-accent: #0066cc;
-  --color-border: #e0e0e0;
+	--color-text: #1a1a1a;
+	--color-bg: #ffffff;
+	--color-accent: #0066cc;
+	--color-border: #e0e0e0;
 
-  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --font-mono: 'SF Mono', Monaco, 'Cascadia Code', Consolas, monospace;
+	--font-body:
+		-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	--font-mono: "SF Mono", Monaco, "Cascadia Code", Consolas, monospace;
 
-  --font-size-base: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
-  --line-height: 1.7;
-  --measure: 65ch;
+	--font-size-base: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
+	--line-height: 1.7;
+	--measure: 65ch;
 }
 
 [data-theme="dark"] {
-  --color-text: #e0e0e0;
-  --color-bg: #1a1a1a;
-  --color-accent: #4da6ff;
-  --color-border: #333333;
+	--color-text: #e0e0e0;
+	--color-bg: #1a1a1a;
+	--color-accent: #4da6ff;
+	--color-border: #333333;
 }
 
 /* ベーススタイル */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
 }
 
 body {
-  font-family: var(--font-body);
-  font-size: var(--font-size-base);
-  line-height: var(--line-height);
-  color: var(--color-text);
-  background-color: var(--color-bg);
-  max-width: var(--measure);
-  margin: 0 auto;
-  padding: 2rem 1rem;
+	font-family: var(--font-body);
+	font-size: var(--font-size-base);
+	line-height: var(--line-height);
+	color: var(--color-text);
+	background-color: var(--color-bg);
+	max-width: var(--measure);
+	margin: 0 auto;
+	padding: 2rem 1rem;
 }
 
 a {
-  color: var(--color-accent);
-  text-decoration: none;
+	color: var(--color-accent);
+	text-decoration: none;
 }
 
 a:hover {
-  text-decoration: underline;
+	text-decoration: underline;
 }
 
 code {
-  font-family: var(--font-mono);
-  font-size: 0.9em;
+	font-family: var(--font-mono);
+	font-size: 0.9em;
 }
 
 /* 記事リスト */
 .post-list {
-  list-style: none;
+	list-style: none;
 }
 
 .post-list li {
-  margin-bottom: 2rem;
-  padding-bottom: 2rem;
-  border-bottom: 1px solid var(--color-border);
+	margin-bottom: 2rem;
+	padding-bottom: 2rem;
+	border-bottom: 1px solid var(--color-border);
 }
 
 .post-list time {
-  display: block;
-  font-size: 0.875rem;
-  color: var(--color-text);
-  opacity: 0.7;
+	display: block;
+	font-size: 0.875rem;
+	color: var(--color-text);
+	opacity: 0.7;
 }
 
 /* タグ */
 .tags {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
+	display: flex;
+	gap: 0.5rem;
+	margin-top: 0.5rem;
 }
 
 .tags a {
-  font-size: 0.875rem;
-  padding: 0.25rem 0.5rem;
-  border: 1px solid var(--color-border);
-  border-radius: 0.25rem;
+	font-size: 0.875rem;
+	padding: 0.25rem 0.5rem;
+	border: 1px solid var(--color-border);
+	border-radius: 0.25rem;
 }
 ```
 
 ### 7. Astroの設定
 
 > **設計参照**:
+>
 > - [research.md - Syntax Highlighting: Shiki](./research.md#2-syntax-highlighting-shiki) - Shikiの理由（ビルド時、ランタイムコストゼロ）
 > - [spec.md - FR-011](../spec.md#functional-requirements) - シンタックスハイライト要件
 >
@@ -481,25 +514,26 @@ code {
 `astro.config.mjs` を更新:
 
 ```javascript
-import { defineConfig } from 'astro/config';
+import { defineConfig } from "astro/config";
 
 export default defineConfig({
-  site: 'https://yourdomain.com',
-  markdown: {
-    shikiConfig: {
-      themes: {
-        light: 'github-light',
-        dark: 'github-dark',
-      },
-      wrap: true,
-    },
-  },
+	site: "https://yourdomain.com",
+	markdown: {
+		shikiConfig: {
+			themes: {
+				light: "github-light",
+				dark: "github-dark",
+			},
+			wrap: true,
+		},
+	},
 });
 ```
 
 ### 8. サンプル記事の追加
 
 > **設計参照**:
+>
 > - [contracts/frontmatter-schema.yaml](./contracts/frontmatter-schema.yaml) - 正規フロントマター形式と例
 > - [data-model.md - Blog Post Schema](./data-model.md#1-blog-post) - 必須およびオプションフィールド
 >
@@ -507,7 +541,7 @@ export default defineConfig({
 
 `src/content/posts/hello-world.md` を作成:
 
-```markdown
+````markdown
 ---
 title: "Hello World"
 date: 2025-12-14
@@ -532,7 +566,9 @@ draft: false
 const greeting = "Hello, world!";
 console.log(greeting);
 ```
-```
+````
+
+````
 
 ## テストセットアップ (10分)
 
@@ -553,7 +589,7 @@ export default defineConfig({
     globals: true,
   },
 });
-```
+````
 
 ### 2. テストスクリプトの追加
 
@@ -561,20 +597,21 @@ export default defineConfig({
 
 ```json
 {
-  "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "typecheck": "tsc --noEmit"
-  }
+	"scripts": {
+		"dev": "astro dev",
+		"build": "astro build",
+		"preview": "astro preview",
+		"test": "vitest run",
+		"test:watch": "vitest",
+		"typecheck": "tsc --noEmit"
+	}
 }
 ```
 
 ### 3. コンテンツテストの作成
 
 > **設計参照**:
+>
 > - [research.md - Test Coverage](./research.md#6-testing-strategy-vitest--typescript) - 何をテストするか、その理由
 > - [data-model.md - Validation Rules](./data-model.md#validation-rules) - スキーマ検証の動作
 > - [plan.md - Minimal Testing with High Value](./plan.md#iii-minimal-testing-with-high-value-) - 憲法原則
@@ -584,29 +621,30 @@ export default defineConfig({
 `tests/content.test.ts` を作成:
 
 ```typescript
-import { getCollection } from 'astro:content';
-import { describe, it, expect } from 'vitest';
+import { getCollection } from "astro:content";
+import { describe, it, expect } from "vitest";
 
-describe('Content Collections', () => {
-  it('公開コレクションからドラフト記事を除外', async () => {
-    const posts = await getCollection('posts', ({ data }) => !data.draft);
-    const hasDrafts = posts.some(post => post.data.draft);
-    expect(hasDrafts).toBe(false);
-  });
+describe("Content Collections", () => {
+	it("公開コレクションからドラフト記事を除外", async () => {
+		const posts = await getCollection("posts", ({ data }) => !data.draft);
+		const hasDrafts = posts.some((post) => post.data.draft);
+		expect(hasDrafts).toBe(false);
+	});
 
-  it('フロントマタースキーマを検証', async () => {
-    const posts = await getCollection('posts');
-    posts.forEach(post => {
-      expect(post.data.title).toBeDefined();
-      expect(post.data.date).toBeInstanceOf(Date);
-    });
-  });
+	it("フロントマタースキーマを検証", async () => {
+		const posts = await getCollection("posts");
+		posts.forEach((post) => {
+			expect(post.data.title).toBeDefined();
+			expect(post.data.date).toBeInstanceOf(Date);
+		});
+	});
 });
 ```
 
 ## CI セットアップ (5分)
 
 > **設計参照**:
+>
 > - [research.md - CI/CD Pipeline](./research.md#7-cicd-pipeline-github-actions) - GitHub Actionsの理由とパイプライン設計
 > - [plan.md - Fast Feedback Loops](./plan.md#fast-feedback-loops-) - ビルド時間と自動化要件
 >
@@ -630,8 +668,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
       - run: npm ci
       - run: npm run typecheck
       - run: npm run test

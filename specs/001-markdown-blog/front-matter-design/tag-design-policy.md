@@ -34,17 +34,16 @@ meta:
 タグポリシーで「カテゴリをまたぐ関連付けは行わない」と定義したが、現実的に以下のケースが想定された：
 
 1. **技術 × 応用分野**
-    
-    - 「Astroで音楽プレイヤーを作る」
-    - tech 側からも music 側からも見つかるべき
+   - 「Astroで音楽プレイヤーを作る」
+   - tech 側からも music 側からも見つかるべき
+
 2. **ツール × 使用文脈**
-    
-    - 「Obsidianで作曲メモを管理」
-    - tech/tools と music/workflow の両方に関連
+   - 「Obsidianで作曲メモを管理」
+   - tech/tools と music/workflow の両方に関連
+
 3. **横断的な概念**
-    
-    - 「コーディング中の集中力を高めるBGM選び」
-    - tech, music, life すべてに関連性がある
+   - 「コーディング中の集中力を高めるBGM選び」
+   - tech, music, life すべてに関連性がある
 
 ### 本質的な要求
 
@@ -62,10 +61,10 @@ meta:
 ### 戦略A：Primary Category制
 
 ```yaml
-category: tech  # Primary
+category: tech # Primary
 tags:
   - tech/astro/tutorial
-  - music/tools/web-player  # 別カテゴリ参照OK
+  - music/tools/web-player # 別カテゴリ参照OK
 ```
 
 **拒絶理由**：
@@ -107,8 +106,8 @@ tags:
 
 ```yaml
 tags:
-  - tech/astro/tutorial  # スラッシュあり → Content
-  - tools                # スラッシュなし → Meta
+  - tech/astro/tutorial # スラッシュあり → Content
+  - tools # スラッシュなし → Meta
   - productivity
 ```
 
@@ -130,8 +129,8 @@ tags:
 ```yaml
 tags:
   - tech/astro/tutorial
-  - '#tools'
-  - '#productivity'
+  - "#tools"
+  - "#productivity"
 ```
 
 **拒絶理由**：
@@ -159,25 +158,24 @@ meta:
 ### 採用理由
 
 1. **最もシンプル**
-    
-    - 2つのリストを持つだけ
-    - 新しい複雑なルールなし
+   - 2つのリストを持つだけ
+   - 新しい複雑なルールなし
+
 2. **明示的**
-    
-    - `meta:` と書いてあるので、意図が明確
-    - 読む人が迷わない
+   - `meta:` と書いてあるので、意図が明確
+   - 読む人が迷わない
+
 3. **完全に独立**
-    
-    - Content Tag と Meta Tag が混ざらない
-    - それぞれに独自のルールを適用できる
+   - Content Tag と Meta Tag が混ざらない
+   - それぞれに独自のルールを適用できる
+
 4. **拡張性**
-    
-    - 将来的に `links:` とか追加できる
-    - frontmatter の構造として自然
+   - 将来的に `links:` とか追加できる
+   - frontmatter の構造として自然
+
 5. **機械処理容易**
-    
-    - フィールドを見るだけで判定可能
-    - 暗黙的な変換不要
+   - フィールドを見るだけで判定可能
+   - 暗黙的な変換不要
 
 ---
 
@@ -273,7 +271,7 @@ Obsidian の frontmatter 周りは仕様が変わりつつあるため、**変�
   "tech": { type: "content", depth: 1, articleIds: [...] },
   "tech/astro": { type: "content", depth: 2, articleIds: [...] },
   "tech/astro/ssg": { type: "content", depth: 3, articleIds: [...] },
-  
+
   // Meta nodes
   "tools": { type: "meta", articleIds: [...] },
   "productivity": { type: "meta", articleIds: [...] }
@@ -319,4 +317,3 @@ creative-coding (8)
 - 2つを明示的に分離することで、シンプルさと表現力を両立
 - 完全機械処理を維持
 - Obsidian との連携は変換層で吸収
-

@@ -1,0 +1,27 @@
+---
+import { getPublicPosts } from "../lib/posts";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ArticleCard from "../components/ArticleCard.astro";
+
+const publicPosts = await getPublicPosts();
+const descSortedPublicPosts = publicPosts.sort(
+	(a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime(),
+);
+---
+
+<BaseLayout>
+	<main>
+		{descSortedPublicPosts.map((post) => <ArticleCard post={post} />)}
+	</main>
+
+	<style>
+		main {
+			max-width: 800px;
+			margin: 0 auto;
+			padding: 2rem 1rem;
+			gap: 1rem;
+			display: flex;
+			flex-direction: column;
+		}
+	</style>
+</BaseLayout>

@@ -1,0 +1,21 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getPublicPosts } from "../../lib/posts.ts";
+import { render } from "astro:content";
+
+export async function getStaticPaths() {
+	const posts = await getPublicPosts();
+	return posts.map((post) => ({
+		params: { id: post.data.id },
+		props: { post },
+	}));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BaseLayout>
+	<h1>{post.data.title}</h1>
+	<Content />
+</BaseLayout>

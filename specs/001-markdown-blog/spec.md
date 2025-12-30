@@ -5,7 +5,7 @@
 **Status**: Draft
 **Input**: User description: "Why (Purpose): The purpose of this project is to build a personal blog that publishes Markdown-based writing in a form that is readable, durable, and maintainable over the long term. The project prioritizes the following: Platform independence, Low friction from writing to publishing, Content-first approach, Quiet reading experience, Ability to evolve safely over time."
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 - Write and Publish a Blog Post (Priority: P1)
 
@@ -86,7 +86,7 @@ As a writer, I want to categorize posts with tags or categories in frontmatter a
 - How are extremely long posts handled? Long posts should render completely; consider adding optional table of contents generation for posts over a certain length.
 - What happens when a post has zero tags? The post should build successfully with an empty tags array; tag-related UI should handle empty arrays gracefully.
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 ### Functional Requirements
 
@@ -117,7 +117,7 @@ As a writer, I want to categorize posts with tags or categories in frontmatter a
 
 - **Site Metadata**: Represents global blog configuration. Key attributes: site title, author name, base URL, theme preference (light/dark/system). This may be stored in a configuration file rather than per-post frontmatter.
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 ### Measurable Outcomes
 

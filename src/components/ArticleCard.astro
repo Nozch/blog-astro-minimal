@@ -1,0 +1,27 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+	post: CollectionEntry<"blogCollection">;
+}
+
+const { post } = Astro.props;
+const { id, slug, title, publishedAt, description, tags } = post.data;
+---
+
+<article>
+	<a href={`/blog/${id}`}>
+		<h2>{title}</h2>
+	</a>
+	<time>{publishedAt.toLocaleDateString(`ja-JP`)}</time>
+	{description && <p>{description}</p>}
+	{
+		tags.length > 0 && (
+			<div class="tags">
+				{tags.map((tag) => (
+					<span>#{tag}</span>
+				))}
+			</div>
+		)
+	}
+</article>

@@ -4,7 +4,6 @@ on:
   pull_request:
     braches:
       - main
-    
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -13,19 +12,19 @@ concurrency:
 jobs:
   ci:
     runs-on: ubuntu-24.04
-    
+
     permissions:
       contents: read
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
-      
+
       - name: Setup mise
         uses: jdx/mise-action@bf7ce94bf71e42b9b3bb1350675aac847b7388c4
         with:
           cache: true
-      
+
       - name: Cache pnpm dependencies
         uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb
         with:
@@ -33,9 +32,9 @@ jobs:
           key: ${{ runner.os }}-pnpm-${{ hashFiles('pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-
-      
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-      
+
       - name: Run CI checks
         run: pnpm ci-check

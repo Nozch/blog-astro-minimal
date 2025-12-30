@@ -74,31 +74,32 @@ Create `.eslintrc.json`:
 
 ```json
 {
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "ecmaVersion": "latest",
-    "sourceType": "module"
-  },
-  "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:astro/recommended"
-  ],
-  "overrides": [
-    {
-      "files": ["*.astro"],
-      "parser": "astro-eslint-parser",
-      "parserOptions": {
-        "parser": "@typescript-eslint/parser",
-        "extraFileExtensions": [".astro"]
-      }
-    }
-  ],
-  "rules": {}
+	"parser": "@typescript-eslint/parser",
+	"parserOptions": {
+		"ecmaVersion": "latest",
+		"sourceType": "module"
+	},
+	"extends": [
+		"eslint:recommended",
+		"plugin:@typescript-eslint/recommended",
+		"plugin:astro/recommended"
+	],
+	"overrides": [
+		{
+			"files": ["*.astro"],
+			"parser": "astro-eslint-parser",
+			"parserOptions": {
+				"parser": "@typescript-eslint/parser",
+				"extraFileExtensions": [".astro"]
+			}
+		}
+	],
+	"rules": {}
 }
 ```
 
 **Note**: If you need `plugin:astro/recommended`, install it:
+
 ```bash
 npm install -D eslint-plugin-astro astro-eslint-parser
 ```
@@ -141,6 +142,7 @@ pnpm-debug.log*
 ### 1. Define Content Collection Schema
 
 > **Design Reference**:
+>
 > - [contracts/frontmatter-schema.yaml](./contracts/frontmatter-schema.yaml) - Canonical schema definition
 > - [data-model.md - Blog Post Entity](./data-model.md#1-blog-post) - Entity specification
 > - [research.md - Content Validation: Zod](./research.md#3-content-validation-zod) - Why Zod was chosen
@@ -150,16 +152,16 @@ pnpm-debug.log*
 Create `src/content/config.ts`:
 
 ```typescript
-import { defineCollection, z } from 'astro:content';
+import { defineCollection, z } from "astro:content";
 
 const posts = defineCollection({
-  schema: z.object({
-    title: z.string(),
-    date: z.date(),
-    description: z.string().optional(),
-    tags: z.array(z.string()).default([]),
-    draft: z.boolean().default(false),
-  }),
+	schema: z.object({
+		title: z.string(),
+		date: z.date(),
+		description: z.string().optional(),
+		tags: z.array(z.string()).default([]),
+		draft: z.boolean().default(false),
+	}),
 });
 
 export const collections = { posts };
@@ -168,6 +170,7 @@ export const collections = { posts };
 ### 2. Create Base Layout
 
 > **Design Reference**:
+>
 > - [research.md - Theming Strategy](./research.md#4-theming-strategy-css-custom-properties--localstorage) - Why CSS custom properties + localStorage
 > - [plan.md - Visual Consistency](./plan.md#visual-consistency-) - Constitution requirement for design tokens
 >
@@ -178,58 +181,62 @@ Create `src/layouts/BaseLayout.astro`:
 ```astro
 ---
 interface Props {
-  title: string;
-  description?: string;
+	title: string;
+	description?: string;
 }
 
 const { title, description } = Astro.props;
 ---
 
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{title}</title>
-    {description && <meta name="description" content={description} />}
-    <link rel="stylesheet" href="/styles/global.css" />
-    <script is:inline>
-      // Theme initialization (before page render to avoid flash)
-      if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.setAttribute('data-theme', 'dark');
-      }
-    </script>
-  </head>
-  <body>
-    <header>
-      <nav>
-        <a href="/">Home</a>
-        <button id="theme-toggle" aria-label="Toggle theme">🌓</button>
-      </nav>
-    </header>
-    <main>
-      <slot />
-    </main>
-    <footer>
-      <p>&copy; 2025 Your Name. All rights reserved.</p>
-    </footer>
-    <script>
-      // Theme toggle logic
-      const toggle = document.getElementById('theme-toggle');
-      toggle?.addEventListener('click', () => {
-        const current = document.documentElement.getAttribute('data-theme');
-        const next = current === 'dark' ? 'light' : 'dark';
-        document.documentElement.setAttribute('data-theme', next);
-        localStorage.theme = next;
-      });
-    </script>
-  </body>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>{title}</title>
+		{description && <meta name="description" content={description} />}
+		<link rel="stylesheet" href="/styles/global.css" />
+		<script is:inline>
+			// Theme initialization (before page render to avoid flash)
+			if (
+				localStorage.theme === "dark" ||
+				(!("theme" in localStorage) && window.matchMedia("(prefers-color-scheme: dark)").matches)
+			) {
+				document.documentElement.setAttribute("data-theme", "dark");
+			}
+		</script>
+	</head>
+	<body>
+		<header>
+			<nav>
+				<a href="/">Home</a>
+				<button id="theme-toggle" aria-label="Toggle theme">🌓</button>
+			</nav>
+		</header>
+		<main>
+			<slot />
+		</main>
+		<footer>
+			<p>&copy; 2025 Your Name. All rights reserved.</p>
+		</footer>
+		<script>
+			// Theme toggle logic
+			const toggle = document.getElementById("theme-toggle");
+			toggle?.addEventListener("click", () => {
+				const current = document.documentElement.getAttribute("data-theme");
+				const next = current === "dark" ? "light" : "dark";
+				document.documentElement.setAttribute("data-theme", next);
+				localStorage.theme = next;
+			});
+		</script>
+	</body>
 </html>
 ```
 
 ### 3. Create Homepage (Post List)
 
 > **Design Reference**:
+>
 > - [data-model.md - Query Patterns](./data-model.md#build-time-queries-astro) - How to query content collections
 > - [data-model.md - Draft Filtering](./data-model.md#draft-filtering) - Why drafts are excluded via query filters
 > - [spec.md - User Story 2](../spec.md#user-story-2---browse-and-navigate-blog-posts-priority-p2) - Chronological navigation requirement
@@ -240,34 +247,41 @@ Create `src/pages/index.astro`:
 
 ```astro
 ---
-import { getCollection } from 'astro:content';
-import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
 
-const posts = await getCollection('posts', ({ data }) => !data.draft);
+const posts = await getCollection("posts", ({ data }) => !data.draft);
 const sorted = posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 ---
 
 <BaseLayout title="My Blog">
-  <h1>Blog Posts</h1>
-  <ul class="post-list">
-    {sorted.map(post => (
-      <li>
-        <a href={`/posts/${post.slug}`}>
-          <h2>{post.data.title}</h2>
-          <time datetime={post.data.date.toISOString()}>
-            {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-          </time>
-          {post.data.description && <p>{post.data.description}</p>}
-        </a>
-      </li>
-    ))}
-  </ul>
+	<h1>Blog Posts</h1>
+	<ul class="post-list">
+		{
+			sorted.map((post) => (
+				<li>
+					<a href={`/posts/${post.slug}`}>
+						<h2>{post.data.title}</h2>
+						<time datetime={post.data.date.toISOString()}>
+							{post.data.date.toLocaleDateString("en-US", {
+								year: "numeric",
+								month: "long",
+								day: "numeric",
+							})}
+						</time>
+						{post.data.description && <p>{post.data.description}</p>}
+					</a>
+				</li>
+			))
+		}
+	</ul>
 </BaseLayout>
 ```
 
 ### 4. Create Post Pages
 
 > **Design Reference**:
+>
 > - [data-model.md - Blog Post Schema](./data-model.md#1-blog-post) - Entity fields and validation rules
 > - [research.md - URL Structure](./research.md#8-url-structure-postsslug) - Why `/posts/[slug]` pattern
 > - [spec.md - User Story 3](../spec.md#user-story-3---read-posts-in-a-distraction-free-environment-priority-p3) - Reading experience requirements
@@ -278,15 +292,15 @@ Create `src/pages/posts/[slug].astro`:
 
 ```astro
 ---
-import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
-  const posts = await getCollection('posts', ({ data }) => !data.draft);
-  return posts.map(post => ({
-    params: { slug: post.slug },
-    props: { post },
-  }));
+	const posts = await getCollection("posts", ({ data }) => !data.draft);
+	return posts.map((post) => ({
+		params: { slug: post.slug },
+		props: { post },
+	}));
 }
 
 const { post } = Astro.props;
@@ -294,28 +308,37 @@ const { Content } = await post.render();
 ---
 
 <BaseLayout title={post.data.title} description={post.data.description}>
-  <article>
-    <header>
-      <h1>{post.data.title}</h1>
-      <time datetime={post.data.date.toISOString()}>
-        {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-      </time>
-      {post.data.tags.length > 0 && (
-        <div class="tags">
-          {post.data.tags.map(tag => (
-            <a href={`/tags/${tag}`}>#{tag}</a>
-          ))}
-        </div>
-      )}
-    </header>
-    <Content />
-  </article>
+	<article>
+		<header>
+			<h1>{post.data.title}</h1>
+			<time datetime={post.data.date.toISOString()}>
+				{
+					post.data.date.toLocaleDateString("en-US", {
+						year: "numeric",
+						month: "long",
+						day: "numeric",
+					})
+				}
+			</time>
+			{
+				post.data.tags.length > 0 && (
+					<div class="tags">
+						{post.data.tags.map((tag) => (
+							<a href={`/tags/${tag}`}>#{tag}</a>
+						))}
+					</div>
+				)
+			}
+		</header>
+		<Content />
+	</article>
 </BaseLayout>
 ```
 
 ### 5. Create Tag Pages
 
 > **Design Reference**:
+>
 > - [data-model.md - Tag Entity](./data-model.md#2-tag) - Tag extraction and relationships
 > - [research.md - Tag Pages: Dynamic Routes](./research.md#9-tag-pages-dynamic-routes) - Static generation of tag pages
 > - [spec.md - User Story 4](../spec.md#user-story-4---organize-posts-by-topic-priority-p4) - Tag organization requirement
@@ -326,21 +349,21 @@ Create `src/pages/tags/[tag].astro`:
 
 ```astro
 ---
-import { getCollection } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
-  const posts = await getCollection('posts', ({ data }) => !data.draft);
-  const tags = [...new Set(posts.flatMap(post => post.data.tags))];
+	const posts = await getCollection("posts", ({ data }) => !data.draft);
+	const tags = [...new Set(posts.flatMap((post) => post.data.tags))];
 
-  return tags.map(tag => ({
-    params: { tag },
-    props: {
-      posts: posts
-        .filter(p => p.data.tags.includes(tag))
-        .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-    },
-  }));
+	return tags.map((tag) => ({
+		params: { tag },
+		props: {
+			posts: posts
+				.filter((p) => p.data.tags.includes(tag))
+				.sort((a, b) => b.data.date.getTime() - a.data.date.getTime()),
+		},
+	}));
 }
 
 const { tag } = Astro.params;
@@ -348,26 +371,33 @@ const { posts } = Astro.props;
 ---
 
 <BaseLayout title={`Posts tagged "${tag}"`}>
-  <h1>Posts tagged "{tag}"</h1>
-  <ul class="post-list">
-    {posts.map(post => (
-      <li>
-        <a href={`/posts/${post.slug}`}>
-          <h2>{post.data.title}</h2>
-          <time datetime={post.data.date.toISOString()}>
-            {post.data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-          </time>
-        </a>
-      </li>
-    ))}
-  </ul>
-  <p><a href="/">← Back to all posts</a></p>
+	<h1>Posts tagged "{tag}"</h1>
+	<ul class="post-list">
+		{
+			posts.map((post) => (
+				<li>
+					<a href={`/posts/${post.slug}`}>
+						<h2>{post.data.title}</h2>
+						<time datetime={post.data.date.toISOString()}>
+							{post.data.date.toLocaleDateString("en-US", {
+								year: "numeric",
+								month: "long",
+								day: "numeric",
+							})}
+						</time>
+					</a>
+				</li>
+			))
+		}
+	</ul>
+	<p><a href="/">← Back to all posts</a></p>
 </BaseLayout>
 ```
 
 ### 6. Add Global Styles
 
 > **Design Reference**:
+>
 > - [research.md - Typography System](./research.md#5-typography-system-system-font-stack--fluid-typography) - System fonts and fluid scaling
 > - [research.md - Theming Strategy](./research.md#4-theming-strategy-css-custom-properties--localstorage) - CSS custom properties for themes
 > - [research.md - CSS Strategy](./research.md#2-css-strategy-single-global-stylesheet) - Why single CSS file
@@ -375,6 +405,7 @@ const { posts } = Astro.props;
 > - [spec.md - User Story 3](../spec.md#user-story-3---read-posts-in-a-distraction-free-environment-priority-p3) - Typography and readability requirements
 >
 > **Rationale**:
+>
 > - **System fonts**: No web font downloads, instant text rendering (FCP <1.5s requirement)
 > - **Fluid typography**: `clamp()` provides responsive scaling without media queries
 > - **CSS custom properties**: Required by constitution, enables theme switching
@@ -385,94 +416,96 @@ Create `src/styles/global.css`:
 ```css
 /* CSS Custom Properties (Design Tokens) */
 :root {
-  --color-text: #1a1a1a;
-  --color-bg: #ffffff;
-  --color-accent: #0066cc;
-  --color-border: #e0e0e0;
+	--color-text: #1a1a1a;
+	--color-bg: #ffffff;
+	--color-accent: #0066cc;
+	--color-border: #e0e0e0;
 
-  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  --font-mono: 'SF Mono', Monaco, 'Cascadia Code', Consolas, monospace;
+	--font-body:
+		-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+	--font-mono: "SF Mono", Monaco, "Cascadia Code", Consolas, monospace;
 
-  --font-size-base: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
-  --line-height: 1.7;
-  --measure: 65ch;
+	--font-size-base: clamp(1rem, 0.9rem + 0.5vw, 1.125rem);
+	--line-height: 1.7;
+	--measure: 65ch;
 }
 
 [data-theme="dark"] {
-  --color-text: #e0e0e0;
-  --color-bg: #1a1a1a;
-  --color-accent: #4da6ff;
-  --color-border: #333333;
+	--color-text: #e0e0e0;
+	--color-bg: #1a1a1a;
+	--color-accent: #4da6ff;
+	--color-border: #333333;
 }
 
 /* Base Styles */
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
 }
 
 body {
-  font-family: var(--font-body);
-  font-size: var(--font-size-base);
-  line-height: var(--line-height);
-  color: var(--color-text);
-  background-color: var(--color-bg);
-  max-width: var(--measure);
-  margin: 0 auto;
-  padding: 2rem 1rem;
+	font-family: var(--font-body);
+	font-size: var(--font-size-base);
+	line-height: var(--line-height);
+	color: var(--color-text);
+	background-color: var(--color-bg);
+	max-width: var(--measure);
+	margin: 0 auto;
+	padding: 2rem 1rem;
 }
 
 a {
-  color: var(--color-accent);
-  text-decoration: none;
+	color: var(--color-accent);
+	text-decoration: none;
 }
 
 a:hover {
-  text-decoration: underline;
+	text-decoration: underline;
 }
 
 code {
-  font-family: var(--font-mono);
-  font-size: 0.9em;
+	font-family: var(--font-mono);
+	font-size: 0.9em;
 }
 
 /* Post List */
 .post-list {
-  list-style: none;
+	list-style: none;
 }
 
 .post-list li {
-  margin-bottom: 2rem;
-  padding-bottom: 2rem;
-  border-bottom: 1px solid var(--color-border);
+	margin-bottom: 2rem;
+	padding-bottom: 2rem;
+	border-bottom: 1px solid var(--color-border);
 }
 
 .post-list time {
-  display: block;
-  font-size: 0.875rem;
-  color: var(--color-text);
-  opacity: 0.7;
+	display: block;
+	font-size: 0.875rem;
+	color: var(--color-text);
+	opacity: 0.7;
 }
 
 /* Tags */
 .tags {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
+	display: flex;
+	gap: 0.5rem;
+	margin-top: 0.5rem;
 }
 
 .tags a {
-  font-size: 0.875rem;
-  padding: 0.25rem 0.5rem;
-  border: 1px solid var(--color-border);
-  border-radius: 0.25rem;
+	font-size: 0.875rem;
+	padding: 0.25rem 0.5rem;
+	border: 1px solid var(--color-border);
+	border-radius: 0.25rem;
 }
 ```
 
 ### 7. Configure Astro
 
 > **Design Reference**:
+>
 > - [research.md - Syntax Highlighting: Shiki](./research.md#2-syntax-highlighting-shiki) - Why Shiki (build-time, zero runtime cost)
 > - [spec.md - FR-011](../spec.md#functional-requirements) - Syntax highlighting requirement
 >
@@ -481,25 +514,26 @@ code {
 Update `astro.config.mjs`:
 
 ```javascript
-import { defineConfig } from 'astro/config';
+import { defineConfig } from "astro/config";
 
 export default defineConfig({
-  site: 'https://yourdomain.com',
-  markdown: {
-    shikiConfig: {
-      themes: {
-        light: 'github-light',
-        dark: 'github-dark',
-      },
-      wrap: true,
-    },
-  },
+	site: "https://yourdomain.com",
+	markdown: {
+		shikiConfig: {
+			themes: {
+				light: "github-light",
+				dark: "github-dark",
+			},
+			wrap: true,
+		},
+	},
 });
 ```
 
 ### 8. Add Example Post
 
 > **Design Reference**:
+>
 > - [contracts/frontmatter-schema.yaml](./contracts/frontmatter-schema.yaml) - Canonical frontmatter format and examples
 > - [data-model.md - Blog Post Schema](./data-model.md#1-blog-post) - Required and optional fields
 >
@@ -507,7 +541,7 @@ export default defineConfig({
 
 Create `src/content/posts/hello-world.md`:
 
-```markdown
+````markdown
 ---
 title: "Hello World"
 date: 2025-12-14
@@ -532,7 +566,9 @@ This is my first blog post! I'm using **Astro** to build a minimal, content-firs
 const greeting = "Hello, world!";
 console.log(greeting);
 ```
-```
+````
+
+````
 
 ## Testing Setup (10 minutes)
 
@@ -553,7 +589,7 @@ export default defineConfig({
     globals: true,
   },
 });
-```
+````
 
 ### 2. Add Test Script
 
@@ -561,20 +597,21 @@ Update `package.json`:
 
 ```json
 {
-  "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "test": "vitest run",
-    "test:watch": "vitest",
-    "typecheck": "tsc --noEmit"
-  }
+	"scripts": {
+		"dev": "astro dev",
+		"build": "astro build",
+		"preview": "astro preview",
+		"test": "vitest run",
+		"test:watch": "vitest",
+		"typecheck": "tsc --noEmit"
+	}
 }
 ```
 
 ### 3. Write Content Test
 
 > **Design Reference**:
+>
 > - [research.md - Test Coverage](./research.md#6-testing-strategy-vitest--typescript) - What to test and why
 > - [data-model.md - Validation Rules](./data-model.md#validation-rules) - Schema validation behavior
 > - [plan.md - Minimal Testing with High Value](./plan.md#iii-minimal-testing-with-high-value-) - Constitution principle
@@ -584,29 +621,30 @@ Update `package.json`:
 Create `tests/content.test.ts`:
 
 ```typescript
-import { getCollection } from 'astro:content';
-import { describe, it, expect } from 'vitest';
+import { getCollection } from "astro:content";
+import { describe, it, expect } from "vitest";
 
-describe('Content Collections', () => {
-  it('excludes draft posts from published collection', async () => {
-    const posts = await getCollection('posts', ({ data }) => !data.draft);
-    const hasDrafts = posts.some(post => post.data.draft);
-    expect(hasDrafts).toBe(false);
-  });
+describe("Content Collections", () => {
+	it("excludes draft posts from published collection", async () => {
+		const posts = await getCollection("posts", ({ data }) => !data.draft);
+		const hasDrafts = posts.some((post) => post.data.draft);
+		expect(hasDrafts).toBe(false);
+	});
 
-  it('validates frontmatter schema', async () => {
-    const posts = await getCollection('posts');
-    posts.forEach(post => {
-      expect(post.data.title).toBeDefined();
-      expect(post.data.date).toBeInstanceOf(Date);
-    });
-  });
+	it("validates frontmatter schema", async () => {
+		const posts = await getCollection("posts");
+		posts.forEach((post) => {
+			expect(post.data.title).toBeDefined();
+			expect(post.data.date).toBeInstanceOf(Date);
+		});
+	});
 });
 ```
 
 ## CI Setup (5 minutes)
 
 > **Design Reference**:
+>
 > - [research.md - CI/CD Pipeline](./research.md#7-cicd-pipeline-github-actions) - Why GitHub Actions and pipeline design
 > - [plan.md - Fast Feedback Loops](./plan.md#fast-feedback-loops-) - Build time and automation requirements
 >
@@ -630,8 +668,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: "20"
+          cache: "npm"
       - run: npm ci
       - run: npm run typecheck
       - run: npm run test

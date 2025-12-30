@@ -23,43 +23,54 @@ Build a minimal, content-first personal blog using Astro's static site generatio
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
 ### I. Static-First Architecture ✅
+
 - **Compliance**: Full. Astro defaults to SSG. Blog content is entirely static HTML/CSS. Theme toggle is the only client JavaScript (progressive enhancement).
 - **Justification**: Blog has no personalization or dynamic data requirements. Static generation aligns perfectly with durability and platform independence goals.
 
 ### II. Performance as a Guardrail ✅
+
 - **Compliance**: Full. Success criteria (SC-004, SC-008, SC-009) enforce Lighthouse ≥90, <2s load on 3G, <5s build time per post.
 - **Justification**: Performance is explicitly required by spec and constitution. Monitoring will be automated in CI.
 
 ### III. Minimal Testing with High Value ✅
+
 - **Compliance**: Full. User input requires "project must not have zero tests." Plan includes Vitest for high-value integration tests (Markdown parsing, frontmatter validation, build output verification).
 - **Justification**: Tests focus on critical paths: build doesn't break, Markdown renders correctly, drafts excluded. No tests for pure presentational components.
 
 ### IV. Content-First Design ✅
+
 - **Compliance**: Full. Spec requires portable Markdown with YAML frontmatter, semantic HTML output, optimized typography, and dark mode from start.
 - **Justification**: Content portability (SC-005) and distraction-free reading (US3) are core requirements. Design supports content outlasting implementation.
 
 ### V. Developer Velocity Over Perfection ✅
+
 - **Compliance**: Full. MVP scope excludes search, comments, i18n, CMS integration. Plan prioritizes shipping P1-P4 user stories incrementally.
 - **Justification**: Spec explicitly excludes non-MVP features. Focus on rapid iteration for single-author blog.
 
 ### Build & Deployment Standards
+
 #### Fast Feedback Loops ✅
+
 - **Compliance**: Full. Astro HMR works by default. Build time constraint <5 min (SC-008). User input requires automated builds.
 - **Justification**: Spec requires low-friction publishing (SC-001: publish in <5 min). Fast builds enable experimentation.
 
 #### Deployment Discipline ✅
+
 - **Compliance**: Full. Static output enables instant rollbacks (redeploy previous build). CI automation required by user input.
 - **Justification**: Solo project needs safety nets. Static deploys are inherently safer than dynamic backends.
 
 ### Content & UX Standards
+
 #### Accessibility Baseline ✅
+
 - **Compliance**: Full. SC-007 requires WCAG AA contrast, FR-012 requires 320px-4K responsive design, spec requires semantic HTML (FR-001).
 - **Justification**: Accessibility is non-negotiable per constitution and explicitly measured in success criteria.
 
 #### Visual Consistency ✅
+
 - **Compliance**: Full. Theme uses CSS custom properties (constitution requirement). Minimal component set (header, footer, post list, post view).
 - **Justification**: Simple design system prevents drift. Constitution requires design tokens in CSS variables.
 
@@ -69,11 +80,12 @@ Build a minimal, content-first personal blog using Astro's static site generatio
 
 ## Post-Design Constitution Re-Evaluation
 
-*Re-evaluated after Phase 1 design (research.md, data-model.md, contracts, quickstart.md)*
+_Re-evaluated after Phase 1 design (research.md, data-model.md, contracts, quickstart.md)_
 
 ### Design Artifacts Review
 
 **Research Decisions** (`research.md`):
+
 - ✅ Shiki syntax highlighter: Build-time only, zero runtime JS (Static-First ✅)
 - ✅ Zod validation: Fail-fast on invalid frontmatter (Fast Feedback Loops ✅)
 - ✅ CSS custom properties: Constitution requirement met (Visual Consistency ✅)
@@ -82,15 +94,18 @@ Build a minimal, content-first personal blog using Astro's static site generatio
 - ✅ Single global CSS file: No premature abstraction (Developer Velocity ✅)
 
 **Data Model** (`data-model.md`):
+
 - ✅ File-based storage: Portable Markdown files (Content-First ✅)
 - ✅ Build-time validation: Zod schema enforces frontmatter rules (Fast Feedback Loops ✅)
 - ✅ Static queries: All data resolved at build time (Static-First ✅)
 
 **Contracts** (`contracts/frontmatter-schema.yaml`):
+
 - ✅ Minimal required fields: Only `title` and `date` required (Developer Velocity ✅)
 - ✅ Optional extensions documented: Future-proof without over-engineering (Developer Velocity ✅)
 
 **Quickstart** (`quickstart.md`):
+
 - ✅ 50-minute setup time: Fast onboarding (Developer Velocity ✅)
 - ✅ CI automation included: typecheck, lint, test, build (Fast Feedback Loops ✅)
 - ✅ Semantic HTML throughout: Accessibility baseline met (Accessibility Baseline ✅)
@@ -100,6 +115,7 @@ Build a minimal, content-first personal blog using Astro's static site generatio
 **Summary**: All design decisions align with constitutional principles. No violations introduced during planning. Implementation ready to proceed.
 
 **Key Alignments**:
+
 1. **Static-First**: 100% static output, minimal JS (theme toggle only)
 2. **Performance**: System fonts, build-time syntax highlighting, CSS custom properties
 3. **Testing**: Integration tests for critical paths, no unit tests for presentational components
@@ -169,4 +185,4 @@ astro-blog/
 
 > **Fill ONLY if Constitution Check has violations that must be justified**
 
-*No violations. Table intentionally left empty.*
+_No violations. Table intentionally left empty._

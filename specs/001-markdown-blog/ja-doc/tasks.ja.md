@@ -24,13 +24,13 @@
 
 **目的**: プロジェクトの初期化と基本構造
 
-- [X] T001 リポジトリルートで npm create astro@latest を使用してAstroプロジェクトを初期化
-- [X] T002 依存関係のインストール: astro@latest、typescript
-- [X] T003 tsconfig.json で TypeScript を設定（strict モード有効）
-- [X] T004 Astro プラグインを使用して eslint.config.mjs で ESLint を設定
-- [X] T005 node_modules/、dist/、.astro/、.env ファイル用の .gitignore を作成
-- [X] T006 astro.config.mjs で Astro を設定（サイトURL、Shiki シンタックスハイライトを使用した基本的な Markdown レンダリング）
-- [X] T007 ディレクトリ構造を作成: src/content/posts/、src/layouts/、src/components/、src/styles/、src/pages/posts/、src/pages/tags/
+- [x] T001 リポジトリルートで npm create astro@latest を使用してAstroプロジェクトを初期化
+- [x] T002 依存関係のインストール: astro@latest、typescript
+- [x] T003 tsconfig.json で TypeScript を設定（strict モード有効）
+- [x] T004 Astro プラグインを使用して eslint.config.mjs で ESLint を設定
+- [x] T005 node_modules/、dist/、.astro/、.env ファイル用の .gitignore を作成
+- [x] T006 astro.config.mjs で Astro を設定（サイトURL、Shiki シンタックスハイライトを使用した基本的な Markdown レンダリング）
+- [x] T007 ディレクトリ構造を作成: src/content/posts/、src/layouts/、src/components/、src/styles/、src/pages/posts/、src/pages/tags/
 
 ---
 
@@ -212,37 +212,45 @@
 ## 過剰エンジニアリングレビューからの主な変更
 
 **フェーズ2（基盤） - 8から5タスクに削減**:
+
 - ✅ T010: **最小限の CSS のみ**に改訂（基本的なリセット、読みやすいデフォルト、タイポグラフィシステム/テーマ変数/レスポンシブなし）
 - ❌ T011 ThemeToggle: **削除**（ダークモードが指定されている US3 に移動）
 - ❌ T012 Header: **削除**（サイトタイトルは US1 のオプションに移動、ナビゲーションは US2 に移動）
 - ❌ T013 Footer: **削除**（非MVP としてフェーズ7の仕上げに移動）
 
 **ユーザーストーリー1 - 1タスク追加**:
+
 - ✅ T023（現在 T022）: サイトタイトル付きヘッダー（US1 内のオプションの仕上げ）
 
 **ユーザーストーリー2 - 1タスク追加**:
+
 - ✅ T028（現在 T027）: ヘッダーナビゲーションリンク（US2 の受け入れ基準に必須）
 
 **ユーザーストーリー3 - タスクを統合**:
+
 - ✅ T029-T031（現在 T028-T030）: 完全なタイポグラフィシステム、CSS カスタムプロパティ、レスポンシブブレークポイント（旧 T010 からのコンテンツ）
 - ✅ T033（現在 T032）: ThemeToggle 作成 + システム設定（旧 T011 + T034 を統合）
 
 **フェーズ7（仕上げ） - 1タスク追加**:
+
 - ✅ T043（現在 T042）: Footer コンポーネント（オプション、非MVP）
 
 **並列計画を削除**:
+
 - ❌ すべての [P] マーカーを削除（ソロ開発者 MVP には実行不可能）
 - ❌ 「並列の機会」セクションを削除
 - ❌ 「並列の例」セクションを削除
 - ❌ 「並列チーム戦略」セクションを削除
 
 **言い回しの修正**:
+
 - ✅ テストポリシーを明確化（CI/品質ゲート vs 機能テスト）
 - ✅ Shiki デュアルテーマを統合（T006 で基本、T031 でデュアルテーマ）
 - ✅ 全体を通じて「独立」を「段階的/追加的」に変更
 - ✅ フェーズ2のブロッキング言語を明確化（US1 の垂直スライスをブロック）
 
 **MVP スラグポリシーの適用**:
+
 - ✅ T008: スキーマで公開記事にスラグが必須に
 - ❌ T019: スラグ自動生成ユーティリティを MVP から削除（明示的なスラグのみ）
 - ✅ T013/T014: サンプル記事を更新して明示的なスラグ要件を表示

@@ -24,27 +24,27 @@
 
 **Purpose**: Project initialization and basic structure
 
-- [X] T001 Initialize Astro project with npm create astro@latest at repository root
-- [X] T002 Install dependencies: astro@latest, typescript
-- [X] T003 Configure TypeScript in tsconfig.json (strict mode enabled)
-- [X] T004 Configure ESLint in eslint.config.mjs with Astro plugin
-- [X] T005 Create .gitignore for node_modules/, dist/, .astro/, .env files
-- [X] T006 Configure Astro in astro.config.mjs (site URL, basic Markdown rendering with Shiki syntax highlighting)
-- [X] T007 Create directory structure: src/content/posts/, src/layouts/, src/components/, src/styles/, src/pages/posts/, src/pages/tags/
-     
----  
-     
+- [x] T001 Initialize Astro project with npm create astro@latest at repository root
+- [x] T002 Install dependencies: astro@latest, typescript
+- [x] T003 Configure TypeScript in tsconfig.json (strict mode enabled)
+- [x] T004 Configure ESLint in eslint.config.mjs with Astro plugin
+- [x] T005 Create .gitignore for node_modules/, dist/, .astro/, .env files
+- [x] T006 Configure Astro in astro.config.mjs (site URL, basic Markdown rendering with Shiki syntax highlighting)
+- [x] T007 Create directory structure: src/content/posts/, src/layouts/, src/components/, src/styles/, src/pages/posts/, src/pages/tags/
+
+---
+
 ## Phase 2: Foundational (Blocking Prerequisites)
 
 **Purpose**: Minimal core infrastructure needed to render and publish posts (User Story 1)
 
 **⚠️ CRITICAL**: This phase blocks all user story work - provides the foundation for rendering Markdown posts
 
-- [ ] T008 Define content collection schema in src/content/config.ts with Zod (title: string required, date: date required, slug: string required for published posts, description: string optional, tags: string[] default [], draft: boolean default false). Note: drafts (draft: true) may omit slug, but all published posts MUST have explicit slug in frontmatter.
-- [ ] T009 Create BaseLayout component in src/layouts/BaseLayout.astro (HTML structure, head with meta tags, viewport, CSS link)
-- [ ] T010 Create minimal global styles in src/styles/global.css (basic CSS reset with box-sizing and margin defaults, system font stack on body, simple hardcoded light mode colors for text/background/links, basic semantic HTML element styling for h1-h6/p/code/pre/ul/ol/blockquote)
-- [ ] T011 Configure Vitest in vitest.config.ts for build verification tests
-- [ ] T012 Configure GitHub Actions CI in .github/workflows/ci.yml (typecheck, lint, test, build steps)
+- [x] T008 Define content collection schema in src/content/config.ts with Zod (title: string required, date: date required, slug: string required for published posts, description: string optional, tags: string[] default [], draft: boolean default false). Note: drafts (draft: true) may omit slug, but all published posts MUST have explicit slug in frontmatter.
+- [x] T009 Create BaseLayout component in src/layouts/BaseLayout.astro (HTML structure, head with meta tags, viewport, CSS link)
+- [x] T010 Create minimal global styles in src/styles/global.css (basic CSS reset with box-sizing and margin defaults, system font stack on body, simple hardcoded light mode colors for text/background/links, basic semantic HTML element styling for h1-h6/p/code/pre/ul/ol/blockquote)
+- [x] T011 Configure Vitest in vitest.config.ts for build verification tests
+- [x] T012 Configure GitHub Actions CI in .github/workflows/ci.yml (typecheck, lint, test, build steps)
 
 **Checkpoint**: Minimal foundation ready - User Story 1 can now be implemented
 
@@ -212,37 +212,45 @@
 ## Key Changes from Overengineering Review
 
 **Phase 2 (Foundational) - Reduced from 8 to 5 tasks**:
+
 - ✅ T010: Revised to **minimal CSS only** (basic reset, readable defaults, no typography system/theme variables/responsive)
 - ❌ T011 ThemeToggle: **Removed** (moved to US3 where dark mode is specified)
 - ❌ T012 Header: **Removed** (site title moved to US1 optional, navigation moved to US2)
 - ❌ T013 Footer: **Removed** (moved to Phase 7 Polish as non-MVP)
 
 **User Story 1 - Added 1 task**:
+
 - ✅ T023 (now T022): Header with site title (optional polish within US1)
 
 **User Story 2 - Added 1 task**:
+
 - ✅ T028 (now T027): Header navigation links (required for US2 acceptance criteria)
 
 **User Story 3 - Consolidated tasks**:
+
 - ✅ T029-T031 (now T028-T030): Full typography system, CSS custom properties, responsive breakpoints (content from old T010)
 - ✅ T033 (now T032): ThemeToggle creation + system preference (merged old T011 + T034)
 
 **Phase 7 (Polish) - Added 1 task**:
+
 - ✅ T043 (now T042): Footer component (optional, non-MVP)
 
 **Parallel planning removed**:
+
 - ❌ All [P] markers removed (not actionable for solo developer MVP)
 - ❌ "Parallel Opportunities" section removed
 - ❌ "Parallel Example" section removed
 - ❌ "Parallel Team Strategy" section removed
 
 **Wording fixes**:
+
 - ✅ Testing policy clarified (CI/quality gates vs feature tests)
 - ✅ Shiki dual-theme consolidated (basic in T006, dual themes in T031)
 - ✅ "Independent" changed to "incremental/additive" throughout
 - ✅ Phase 2 blocking language clarified (blocks US1 vertical slice)
 
 **MVP slug policy enforced**:
+
 - ✅ T008: Slug now REQUIRED for published posts in schema
 - ❌ T019: Slug auto-generation utility REMOVED from MVP (explicit slugs only)
 - ✅ T013/T014: Example posts updated to show explicit slug requirement
